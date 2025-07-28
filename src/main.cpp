@@ -104,7 +104,7 @@ void platform_update_window()
 
 int main()
 {
-    platform_create_window(1200, 720, "Opplok Game Engine");
+    platform_create_window(1200, 720, "Opplok Game Engine 1");
 
     while (running)
     {
