@@ -153,9 +153,10 @@ bool file_exists(char *filePath)
 {
     SM_ASSERT(filePath, "No filePath supplied!");
 
-    auto file = fopen(filePath, "rb");
+    FILE *file = NULL;
+    errno_t err = fopen_s(&file, filePath, "rb");
 
-    if (!file)
+    if (err != 0 || file == NULL)
     {
         return false;
     }
@@ -169,9 +170,10 @@ long get_file_size(char *filePath)
     SM_ASSERT(filePath, "No filePath supplied!");
 
     long fileSize = 0;
-    auto file = fopen(filePath, "rb");
+    FILE *file = NULL;
+    errno_t err = fopen_s(NULL, filePath, "rb");
 
-    if (!file)
+    if (err != 0 || file == NULL)
     {
         SM_ERROR("Failed opening File: %s", filePath);
         return 0;
@@ -197,9 +199,10 @@ char *read_file(char *filePath, int *fileSize, char *buffer)
     SM_ASSERT(buffer, "No buffer supplied!");
 
     *fileSize = 0;
-    auto file = fopen(filePath, "rb");
+    FILE *file = NULL;
+    errno_t err = fopen_s(&file, filePath, "rb");
 
-    if (!file)
+    if (err != 0 || file == NULL)
     {
         SM_ERROR("Failed opening File: %s", filePath);
         return nullptr;
@@ -233,9 +236,10 @@ void write_file(char *filePath, char *buffer, int size)
     SM_ASSERT(filePath, "No filePath supplied!");
     SM_ASSERT(buffer, "No buffer supplied!");
 
-    auto file = fopen(filePath, "wb");
+    FILE *file = NULL;
+    errno_t err = fopen_s(&file, filePath, "wb");
 
-    if (!file)
+    if (err != 0 || file == NULL)
     {
         SM_ERROR("Failed opening File: %s", filePath);
         return;
@@ -249,9 +253,10 @@ bool copy_file(char *fileName, char *outputName, char *buffer)
 {
     int fileSize = 0;
     char *data = read_file(fileName, &fileSize, buffer);
-    auto outputFile = fopen(outputName, "wb");
+    FILE *outputFile = NULL;
+    errno_t err = fopen_s(&outputFile, outputName, "wb");
 
-    if (!outputFile)
+    if (err != 0 || outputFile == NULL)
     {
         SM_ERROR("Failed opening File: %s", outputName);
         return false;
